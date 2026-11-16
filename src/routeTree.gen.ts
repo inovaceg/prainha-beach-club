@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GastronomiaRouteImport } from './routes/gastronomia'
+import { Route as QuadrasRouteImport } from './routes/quadras'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GastronomiaRoute = GastronomiaRouteImport.update({
+  id: '/gastronomia',
+  path: '/gastronomia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuadrasRoute = QuadrasRouteImport.update({
+  id: '/quadras',
+  path: '/quadras',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/gastronomia': typeof GastronomiaRoute
+  '/quadras': typeof QuadrasRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/gastronomia': typeof GastronomiaRoute
+  '/quadras': typeof QuadrasRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/gastronomia': typeof GastronomiaRoute
+  '/quadras': typeof QuadrasRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/gastronomia' | '/quadras'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/gastronomia' | '/quadras'
+  id: '__root__' | '/' | '/gastronomia' | '/quadras'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  GastronomiaRoute: typeof GastronomiaRoute
+  QuadrasRoute: typeof QuadrasRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gastronomia': {
+      id: '/gastronomia'
+      path: '/gastronomia'
+      fullPath: '/gastronomia'
+      preLoaderRoute: typeof GastronomiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quadras': {
+      id: '/quadras'
+      path: '/quadras'
+      fullPath: '/quadras'
+      preLoaderRoute: typeof QuadrasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  GastronomiaRoute: GastronomiaRoute,
+  QuadrasRoute: QuadrasRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
